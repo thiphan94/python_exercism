@@ -59,4 +59,5 @@ def clean_up(combined_record_group):
         item = item[:1] + item[2:]
         res.append(item)
     result = "\n".join(str(item) for item in res) + "\n"
+
     return result

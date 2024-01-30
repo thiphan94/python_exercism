@@ -1,2 +1,2 @@
-# python_exercism
+# Python solution for exercism problems
 

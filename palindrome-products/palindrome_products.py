@@ -8,8 +8,12 @@ def largest(min_factor, max_factor):
              Iterable should contain both factors of the palindrome in an arbitrary order.
     """
 
-    if min_factor > max_factor:
+    if max_factor < min_factor:
         raise ValueError("min must be <= max")
+    factors = range(min_factor, max_factor + 1)
+    products = range(max_factor**2, (min_factor**2) - 1, -1)
+
+    return list_palindrome(factors, products)
 
 
 def smallest(min_factor, max_factor):
@@ -22,40 +26,23 @@ def smallest(min_factor, max_factor):
     Iterable should contain both factors of the palindrome in an arbitrary order.
     """
 
-    pass
-
-
-def isPalindrome(n: int) -> bool:
-    return str(n) == str(n)[::-1]
-
-
-def get_palindrome(min_factor, max_factor, candidates):
-    if min_factor > max_factor:
+    if max_factor < min_factor:
         raise ValueError("min must be <= max")
-    for product in candidates:
-        if isPalindrome(product):
-            result = []
-            for i in range(min_factor, max_factor + 1):
-                if (product // i) * i == product and (product // i) in list(
-                    range(min_factor, max_factor + 1)
-                ):
-                    result.append([i, product // i])
-            if len(result) > 0:
-                return product, (x for x in result)
-    return None, iter(())
+    factors = range(min_factor, max_factor + 1)
+    products = range(max_factor**2, (min_factor**2) - 1, -1)
+
+    products = range(min_factor**2, (max_factor**2) + 1)
+    return list_palindrome(factors, products)
 
 
-def largest(min_factor, max_factor):
-    return get_palindrome(
-        min_factor,
-        max_factor,
-        range(max_factor * max_factor, min_factor * min_factor - 1, -1),
-    )
-
-
-def smallest(min_factor, max_factor):
-    return get_palindrome(
-        min_factor,
-        max_factor,
-        range(min_factor * min_factor, max_factor * max_factor + 1),
-    )
+def list_palindrome(factors, products):
+    results = []
+    for number in products:
+        if str(number) == str(number)[::-1]:
+            for factor in factors:
+                divisor, remainder = divmod(number, factor)
+                if remainder == 0 and divisor in factors:
+                    results.append([factor, divisor])
+        if results:
+            return number, results
+    return None, []
